@@ -1,0 +1,16 @@
+from mpi4py import MPI
+
+comm = MPI.COMM_WORLD
+rank = comm.Get_rank()
+size = comm.Get_size()
+
+sub_count = (rank + 1) * 10
+
+total_population = comm.reduce(
+    sub_count,
+    op=MPI.SUM,
+    root=0
+)
+
+if rank == 0:
+    print("NTP:", total_population)
